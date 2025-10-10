@@ -1,4 +1,8 @@
-# Details Extension
+---
+title: Details Extension
+filters: [details]
+format: html
+---
 
 A Quarto extension for creating collapsible sections using `<details>` and `<summary>` HTML elements without writing raw HTML.
 
@@ -29,9 +33,19 @@ You can include **any** Markdown content here.
 :::
 ```
 
+Gives:
+
+::: {.details summary="Click to see more"}
+This content will be collapsible.
+
+You can include **any** Markdown content here.
+:::
+
+
 ### Syntax with heading as summary
 
 Use any heading level as the summary text. The heading will be automatically extracted:
+
 
 ```markdown
 ::: {.details}
@@ -42,6 +56,16 @@ This is the collapsible content that appears after the heading.
 You can use any heading level: `##`, `###`, `####`, etc.
 :::
 ```
+
+Gives:
+
+::: {.details}
+## Click to expand
+
+This is the collapsible content that appears after the heading.
+
+You can use any heading level: `##`, `###`, `####`, etc.
+:::
 
 ### Syntax with nested summary div
 
@@ -60,6 +84,19 @@ This is the collapsible content.
 :::
 ```
 
+Gives:
+
+::: {.details}
+::: {.summary}
+**Important:** Click to expand
+:::
+
+This is the collapsible content.
+
+- Item 1
+- Item 2
+:::
+
 ### Priority order
 
 If multiple summary methods are used, the priority is:
@@ -69,7 +106,36 @@ If multiple summary methods are used, the priority is:
 3. **First heading** (`##`, `###`, etc.)
 4. **Default** ("Click to expand")
 
+Example where attribute takes priority:
 
-# License
+````markdown
+::: {.details summary="This will be used"}
+## This heading will be treated as content
 
-AGPL (>= 3)
+Content here.
+:::
+````
+
+Gives:
+
+::: {.details summary="This will be used"}
+## This heading will be treated as content
+
+Content here.
+:::
+
+### Open by default
+
+Add the `open="true"` attribute to make the details open by default:
+
+```markdown
+::: {.details summary="Already expanded" open="true"}
+This content is visible by default.
+:::
+```
+
+Gives:
+
+::: {.details summary="Already expanded" open="true"}
+This content is visible by default.
+:::
