@@ -1,7 +1,30 @@
+-- Global variables to store extension options
+local default_open = false
+local default_summary_text = "Click to expand"
+
+-- Read options from metadata
+function Meta(meta)
+  if meta.extensions and meta.extensions.details then
+    local details_opts = meta.extensions.details
+    
+    -- Check for open option
+    if details_opts.open then
+      default_open = details_opts.open
+    end
+    
+    -- Check for summary-text option
+    if details_opts['summary-text'] then
+      default_summary_text = pandoc.utils.stringify(details_opts['summary-text'])
+    end
+  end
+  
+  return meta
+end
+
 function Div(el)
   -- Check if this is a details div
   if el.classes:includes('details') then
-    local summary_text = "Click to expand"
+    local summary_text = default_summary_text
     local content = {}
     local summary_source = "default"
     
@@ -45,9 +68,13 @@ function Div(el)
       end
     end
     
-    -- Check for open attribute
+    -- Check for open attribute (instance-level overrides global)
     local open_attr = ""
     if el.attributes.open == "true" or el.attributes.open == "" then
+      open_attr = " open"
+    elseif el.attributes.open == "false" then
+      open_attr = ""
+    elseif default_open then
       open_attr = " open"
     end
     
@@ -65,3 +92,9 @@ function Div(el)
     return pandoc.RawBlock('html', html)
   end
 end
+
+-- Return filters with Meta before Div
+return {
+  { Meta = Meta },
+  { Div = Div }
+}
