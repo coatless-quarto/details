@@ -1,4 +1,4 @@
-# Details Extension
+# details
 
 A Quarto extension for creating collapsible sections using `<details>` and `<summary>` HTML elements without writing raw HTML.
 
@@ -69,6 +69,26 @@ If multiple summary methods are used, the priority is:
 3. **First heading** (`##`, `###`, etc.)
 4. **Default** ("Click to expand")
 
+
+Example where attribute takes priority:
+
+````markdown
+::: {.details summary="This will be used"}
+## This heading will be treated as content
+
+Content here.
+:::
+````
+
+### Open by default
+
+Add the `open="true"` attribute to make the details open by default:
+
+```markdown
+::: {.details summary="Already expanded" open="true"}
+This content is visible by default.
+:::
+```
 
 # License
 
