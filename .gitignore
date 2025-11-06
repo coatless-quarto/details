@@ -1,2 +1,4 @@
 /.luarc.json
 *_files/*
+/docs/_site/
+.DS_Store

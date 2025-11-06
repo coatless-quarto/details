@@ -1,0 +1,16 @@
+---
+title: "Release Notes"
+date: "10-09-2025"
+date-modified: last-modified
+engine: markdown
+format: 
+  html:
+    toc: true
+---
+
+# 0.0.0-dev.1: ???? (??-??-????)
+
+## Features
+
+- `details` provides a markdown-like syntax for creating expandable/collapsible details sections in Quarto documents.
+
