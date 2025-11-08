@@ -1,4 +1,4 @@
-# details
+# details <img src="docs/details-animated-logo.svg" align ="right" alt="" width ="150"/>
 
 A Quarto extension for creating collapsible sections using `<details>` and `<summary>` HTML elements without writing raw HTML.
 
