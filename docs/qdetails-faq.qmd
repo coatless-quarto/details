@@ -1,0 +1,296 @@
+---
+title: "Frequently Asked Questions"
+date: "10-06-2025"
+date-modified: last-modified
+engine: markdown
+format: 
+  html:
+    toc: true
+---
+
+# General Information
+
+## What is the {details} extension for Quarto?
+
+The `{details}` extension for Quarto is a filter that transforms fenced divs with
+the `.details` class into collapsible `<details>` and `<summary>` HTML elements. 
+For non-interactive formats like LaTeX, Word, and Typst, it automatically converts 
+these sections into Quarto callout blocks.
+
+## Why use {details} instead of raw HTML?
+
+Using the `{details}` extension offers several advantages when compared to raw HTML:
+
+- **Cleaner syntax**: Easier to write and read using Markdown-like syntax.
+- **Format compatibility**: Works across HTML, PDF, Word, Typst, and more.
+- **Rich features**: Accordion groups, conditional content, accessibility attributes
+
+# Installation
+
+## How do I install the {details} extension?
+
+Run the following command in your terminal:
+ 
+```bash
+quarto add coatless-quarto/details
+```
+
+This installs the extension into your project's `_extensions` directory.
+
+## Is the {details} extension compatible with all Quarto versions?
+
+The `{details}` extension requires Quarto v1.7 or later, as it uses Lua filter features stabilized in that version.
+
+## Do I need to install any additional dependencies?
+
+No additional dependencies are required. The `{details}` extension is a pure
+Lua filter that works with Quarto's built-in Pandoc processing.
+
+# Basic Usage
+
+## How do I create a collapsible section?
+
+Add the `.details` class to a fenced div:
+
+```markdown
+::: {.details summary="Click to expand"}
+Your collapsible content here.
+:::
+```
+
+## What are the different ways to specify summary text?
+
+There are three methods, in order of priority:
+
+1. **Attribute**: `summary="Your text"` (plain text only)
+2. **Summary div**: Nested `::: {.summary}` div (supports Markdown)
+3. **Heading**: First heading in the block (supports Markdown)
+
+If none are provided, the default text "Click to expand" is used.
+
+## Can I have the details open by default?
+
+Yes, add the `open` attribute:
+
+```markdown
+::: {.details summary="Already expanded" open="true"}
+This content is visible immediately.
+:::
+```
+
+Or set it globally in your YAML:
+
+```yaml
+extensions:
+  details:
+    interactive:
+      open: true
+```
+
+# Accordion Groups
+
+## How do I create an accordion where only one section opens at a time?
+
+Add the same `group` attribute to related details blocks:
+
+```markdown
+::: {.details summary="Section 1" group="faq"}
+Content 1
+:::
+
+::: {.details summary="Section 2" group="faq"}
+Content 2
+:::
+```
+
+This uses exclusive mode by default—opening one section closes the others.
+
+## Can all sections in a group open and close together?
+
+Yes, use synchronized mode:
+
+```markdown
+::: {.details summary="Part A" group="notes" accordion-mode="synchronized"}
+:::
+
+::: {.details summary="Part B" group="notes" accordion-mode="synchronized"}
+:::
+```
+
+Or set it globally:
+
+```yaml
+extensions:
+  details:
+    interactive:
+      accordion-mode: "synchronized"
+```
+
+# Non-Interactive Formats
+
+## How do details blocks appear in PDF or Word?
+
+By default, they render as Quarto callout blocks with the summary as the title. 
+You can control this with the `display` option:
+
+- `"show"`: Full content in a callout (default)
+- `"placeholder"`: Callout with placeholder text
+- `"remove"`: Block is removed entirely
+
+## Can I use different summary text for PDF vs HTML?
+
+Yes, use the `non-interactive-summary` attribute:
+
+```markdown
+::: {.details summary="Click to expand" non-interactive-summary="Additional Information"}
+Content here.
+:::
+```
+
+## How do I change the callout type?
+
+Use the `callout-type` attribute or global setting:
+
+```markdown
+::: {.details summary="Warning" callout-type="warning"}
+:::
+```
+
+Available types: `note`, `tip`, `warning`, `caution`, `important`
+
+# Advanced Features
+
+## Can I use Markdown formatting in summaries?
+
+Yes, when using a heading or summary div:
+
+```markdown
+::: {.details}
+## Click for **important** `code` details
+
+Content here.
+:::
+```
+
+The `summary` attribute only supports plain text.
+
+## How do I show different content for HTML vs PDF?
+
+Use conditional content divs:
+
+```markdown
+::: {.details summary="Demo"}
+
+::: {.interactive-only}
+<iframe src="demo.html"></iframe>
+:::
+
+::: {.non-interactive-only}
+See the online version for the interactive demo.
+:::
+
+:::
+```
+
+## Can I add expand/collapse all buttons?
+
+Yes, enable controls in your YAML:
+
+```yaml
+extensions:
+  details:
+    interactive:
+      show-controls: true
+      controls-position: "top"  # or "bottom", "both"
+```
+
+## How do I link directly to a specific details section?
+
+Add a custom ID:
+
+```markdown
+::: {#installation .details summary="Installation"}
+Steps here.
+:::
+```
+
+Then link with `#installation`. Without a custom ID, elements receive auto-generated IDs
+(`details-1`, `details-2`, etc.).
+
+# Troubleshooting
+
+## The details blocks aren't collapsible. What should I check?
+
+Ensure that:
+
+1. The extension is installed in `_extensions/details/`
+2. You've added `filters: [details]` to your YAML
+3. You're rendering to an HTML format
+4. The div has the `.details` class
+
+## My accordion group isn't working correctly.
+
+Verify that:
+
+- All sections have the same `group` value
+- You're viewing in an HTML format (accordions don't apply to PDF/Word)
+- For synchronized mode, all sections include `accordion-mode="synchronized"`
+
+## The expand/collapse buttons aren't appearing.
+
+Check that:
+
+- `show-controls: true` is set under `extensions.details.interactive`
+- Your document contains at least one details block
+- You're rendering to an HTML format
+
+## How do I debug configuration issues?
+
+Enable debug mode to see verbose logging:
+
+```yaml
+extensions:
+  details:
+    debug: true
+```
+
+This logs option parsing, summary extraction, ID generation, and more.
+
+# Compatibility
+
+## Does {details} work with all Quarto output formats?
+
+Yes! The extension automatically adapts:
+
+- **HTML formats** (html, revealjs, slidy, etc.): Native `<details>` elements
+- **Non-interactive formats** (pdf, docx, typst, epub): Quarto callouts
+
+## Can I use {details} with other Quarto extensions?
+
+Yes, `{details}` is designed to work alongside other extensions. 
+If you encounter conflicts, try adjusting the filter order in your YAML.
+
+## Does {details} work in Quarto websites and books?
+
+Yes, add the filter to your `_quarto.yml`:
+
+```yaml
+filters:
+  - details
+```
+
+# Support
+
+## Where can I report bugs or request features?
+
+Visit the [GitHub repository](https://github.com/coatless-quarto/details) to:
+
+- Report issues
+- Request features
+- Submit pull requests
+- View the source code
+
+## How can I contribute to the {details} extension?
+
+Contributions are welcome! Check the repository for contribution guidelines,
+or open an issue to discuss your ideas before submitting a pull request.
