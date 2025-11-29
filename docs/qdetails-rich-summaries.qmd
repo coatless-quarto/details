@@ -10,6 +10,10 @@ filters: [details]
 
 Summaries can include Markdown formatting when using headings or summary divs.
 
+:::{.callout-warning}
+The `summary` attribute only supports plain text. To include formatting, use a heading or summary Div instead.
+:::
+
 ## Using a Heading
 
 The heading content preserves inline formatting:
@@ -21,6 +25,8 @@ The heading content preserves inline formatting:
 Content here.
 :::
 ```
+
+Gives: 
 
 ::: {.details}
 ## Click for **important** `code` details
@@ -42,6 +48,8 @@ Advanced content here.
 :::
 ```
 
+Gives: 
+
 ::: {.details}
 ::: {.summary}
 **Warning:** This contains *advanced* configuration
@@ -54,28 +62,6 @@ Here are the advanced configuration options:
 - Option C: Use with caution
 :::
 
-## Multiple Formatting Examples
+## Conclusion
 
-::: {.details}
-## View the `config.yaml` file
-
-```yaml
-setting: value
-```
-:::
-
-::: {.details}
-::: {.summary}
-**Step 1:** Install the *required* dependencies
-:::
-
-Run the following command:
-
-```bash
-npm install
-```
-:::
-
-## Note
-
-The `summary` attribute only supports plain text. Use a heading or summary div for rich formatting.
+When using headings or a summary `Div`, e.g. `#` or `::: {.summary}`, you can include rich formatting such as **bold text**, *italics*, `code`, lists, and more.
