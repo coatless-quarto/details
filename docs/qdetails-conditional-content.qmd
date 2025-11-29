@@ -1,10 +1,17 @@
 ---
 title: "Conditional Content"
+format: 
+  html:
+    toc: true
+  typst: default
+  docx: default
 filters: [details]
 ---
 
 Show different content based on whether the output format is interactive (HTML) or non-interactive (PDF, Word)
 through the use of special classes `.interactive-only` and `.non-interactive-only`.
+
+## Demo
 
 For example, you might want to include an interactive widget in HTML output, but provide a static message in PDF/Word.
 
@@ -37,3 +44,6 @@ This button only appears in HTML output.
 :::
 
 :::
+
+You can see that in HTML output, the button is interactive, while in PDF/Word found under "Other Formats", a placeholder message is shown instead.
+
