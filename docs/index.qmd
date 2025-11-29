@@ -450,3 +450,13 @@ In HTML, the summary will be "Click to expand code". In PDF/Word, the callout ti
 |-------|-------------|
 | `.interactive-only` | Content shown only in HTML formats |
 | `.non-interactive-only` | Content shown only in PDF, Word, Typst, etc. |
+
+
+## Acknowledgments
+
+This extension was developed independently from the existing
+[shortcode `details` Quarto extension](https://github.com/jmgirard/details) 
+by [Jeffrey Girard](https://github.com/jmgirard). Their extension focuses 
+on using Quarto's shortcode syntax for details blocks, while this extension
+emphasizes a more natural Markdown syntax through `Div` usage and
+additional features for non-interactive formats.
