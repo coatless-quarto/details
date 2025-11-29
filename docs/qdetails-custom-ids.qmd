@@ -3,8 +3,6 @@ title: "Custom IDs & Deep Linking"
 format: 
     html:
         toc: true
-    typst: default
-    docx: default
 filters: [details]
 ---
 
