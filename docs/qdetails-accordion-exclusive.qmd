@@ -1,0 +1,51 @@
+---
+title: "Accordion - Exclusive Mode"
+filters: [details]
+---
+
+In exclusive mode (default), only one details element can be open at a time within a group.
+
+## Configuration
+
+```markdown
+::: {.details summary="Section 1" group="demo"}
+Content for section 1.
+:::
+
+::: {.details summary="Section 2" group="demo"}
+Content for section 2.
+:::
+```
+
+## Demo
+
+Click on different sections - the previously open one will close automatically.
+
+::: {.details summary="What is Quarto?" group="faq"}
+Quarto is an open-source scientific and technical publishing system built on Pandoc.
+:::
+
+::: {.details summary="How do I install Quarto?" group="faq"}
+Visit [quarto.org](https://quarto.org) and download the installer for your operating system.
+:::
+
+::: {.details summary="Is Quarto free?" group="faq"}
+Yes! Quarto is completely free and open-source under the GPL-2 license.
+:::
+
+::: {.details summary="What formats does Quarto support?" group="faq"}
+Quarto supports HTML, PDF, Word, PowerPoint, ePub, and many more formats.
+:::
+
+## Global Configuration
+
+Set the default accordion mode for all groups:
+
+```yaml
+---
+extensions:
+  details:
+    interactive:
+      accordion-mode: "exclusive"  # This is the default
+---
+```

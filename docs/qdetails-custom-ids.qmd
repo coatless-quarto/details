@@ -1,0 +1,74 @@
+---
+title: "Custom IDs & Deep Linking"
+format: 
+    html:
+        toc: true
+    typst: default
+    docx: default
+filters: [details]
+---
+
+Add custom IDs to enable direct linking to specific details sections.
+
+## Configuration
+
+```markdown
+::: {#installation .details summary="Installation Guide"}
+Installation steps here.
+:::
+```
+
+## Demo
+
+Try clicking these links to jump to specific sections:
+
+- [Jump to Installation](#installation)
+- [Jump to Configuration](#configuration)
+- [Jump to Troubleshooting](#troubleshooting)
+
+---
+
+::: {#installation .details summary="Installation Guide" open="true"}
+### Step 1: Download
+
+Download the latest release from GitHub.
+
+### Step 2: Install
+
+Run the installer for your platform.
+
+### Step 3: Verify
+
+Run `quarto --version` to verify installation.
+:::
+
+::: {#configuration .details summary="Configuration Options" open="true"}
+### Basic Configuration
+
+Create a `_quarto.yml` file in your project root.
+
+### Advanced Options
+
+See the documentation for advanced configuration options.
+:::
+
+::: {#troubleshooting .details summary="Troubleshooting" open="true"}
+### Common Issues
+
+- **Issue 1:** Check your PATH environment variable
+- **Issue 2:** Ensure all dependencies are installed
+- **Issue 3:** Try clearing the cache
+:::
+
+## Sharing Links
+
+Share direct links to specific sections:
+
+
+- <https://quarto.thecoatlessprofessor.com/details/qdetails-custom-ids.html#installation>
+- <https://quarto.thecoatlessprofessor.com/details/qdetails-custom-ids.html#troubleshooting>
+
+
+## Auto-Generated IDs
+
+Without a custom ID, elements receive auto-generated IDs (`details-1`, `details-2`, etc.).

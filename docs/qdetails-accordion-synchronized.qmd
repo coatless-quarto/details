@@ -1,0 +1,60 @@
+---
+title: "Accordion - Synchronized Mode"
+filters: [details]
+---
+
+In synchronized mode, all details elements in a group open and close together.
+
+## Configuration
+
+```markdown
+::: {.details summary="Chapter 1" group="chapters" accordion-mode="synchronized"}
+Notes for chapter 1.
+:::
+
+::: {.details summary="Chapter 2" group="chapters" accordion-mode="synchronized"}
+Notes for chapter 2.
+:::
+```
+
+## Demo
+
+Click any section - all sections in the group will toggle together.
+
+::: {.details summary="Chapter 1: Introduction" group="notes" accordion-mode="synchronized"}
+- Overview of the topic
+- Key terminology
+- Learning objectives
+:::
+
+::: {.details summary="Chapter 2: Methods" group="notes" accordion-mode="synchronized"}
+- Research methodology
+- Data collection
+- Analysis techniques
+:::
+
+::: {.details summary="Chapter 3: Results" group="notes" accordion-mode="synchronized"}
+- Key findings
+- Statistical analysis
+- Data visualization
+:::
+
+## Global Configuration
+
+Set synchronized mode as the default:
+
+```yaml
+---
+extensions:
+  details:
+    interactive:
+      accordion-mode: "synchronized"
+---
+```
+
+Then simply use the `group` attribute:
+
+```markdown
+::: {.details summary="Section A" group="mygroup"}
+:::
+```

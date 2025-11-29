@@ -1,0 +1,81 @@
+---
+title: "Expand/Collapse Controls"
+extensions:
+  details:
+    interactive:
+      show-controls: true
+      controls-position: "top"
+filters: [details]
+---
+
+Within interactive formats, you can enable document-wide buttons to expand or
+collapse all details sections at once. This does not affect non-interactive formats
+as those do not have expandable/collapsible behavior.
+
+## Configuration
+
+Add the following to your document metadata or `_quarto.yml`:
+
+```yaml
+---
+extensions:
+  details:
+    interactive:
+      show-controls: true
+      controls-position: "top"  # "top", "bottom", or "both"
+---
+```
+
+## Demo
+
+Use the buttons at the top of the document to expand or collapse all sections.
+
+::: {.details summary="Section 1: Introduction"}
+This is the introduction section with some preliminary information.
+:::
+
+::: {.details summary="Section 2: Main Content"}
+This is the main content section with detailed information.
+
+- Point A
+- Point B
+- Point C
+:::
+
+::: {.details summary="Section 3: Examples"}
+Here are some examples:
+
+```python
+print("Hello, World!")
+```
+:::
+
+::: {.details summary="Section 4: Conclusion"}
+This is the conclusion with final thoughts and next steps.
+:::
+
+## Custom Button Text
+
+To customize the text of the expand/collapse buttons, modify `controls-expand-text` and `controls-collapse-text` within
+the `interactive` settings of thedocument metadata or `_quarto.yml`.
+
+```yaml
+---
+extensions:
+  details:
+    interactive:
+      show-controls: true
+      controls-expand-text: "Show All"
+      controls-collapse-text: "Hide All"
+---
+```
+
+## Position Options
+
+The `controls-position` attribute determines where the expand/collapse buttons appear:
+
+| Position | Description |
+|----------|-------------|
+| `"top"` | Controls at the start of the document (default) |
+| `"bottom"` | Controls at the end of the document |
+| `"both"` | Controls at both start and end |

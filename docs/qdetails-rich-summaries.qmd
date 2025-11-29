@@ -1,0 +1,81 @@
+---
+title: "Rich Summaries"
+format: 
+  html:
+    toc: true
+  typst: default
+  docx: default
+filters: [details]
+---
+
+Summaries can include Markdown formatting when using headings or summary divs.
+
+## Using a Heading
+
+The heading content preserves inline formatting:
+
+```markdown
+::: {.details}
+## Click for **important** `code` details
+
+Content here.
+:::
+```
+
+::: {.details}
+## Click for **important** `code` details
+
+This summary has bold text and inline code formatting.
+:::
+
+## Using a Summary Div
+
+For more complex summaries:
+
+```markdown
+::: {.details}
+::: {.summary}
+**Warning:** This contains *advanced* configuration
+:::
+
+Advanced content here.
+:::
+```
+
+::: {.details}
+::: {.summary}
+**Warning:** This contains *advanced* configuration
+:::
+
+Here are the advanced configuration options:
+
+- Option A: For power users
+- Option B: Experimental feature
+- Option C: Use with caution
+:::
+
+## Multiple Formatting Examples
+
+::: {.details}
+## View the `config.yaml` file
+
+```yaml
+setting: value
+```
+:::
+
+::: {.details}
+::: {.summary}
+**Step 1:** Install the *required* dependencies
+:::
+
+Run the following command:
+
+```bash
+npm install
+```
+:::
+
+## Note
+
+The `summary` attribute only supports plain text. Use a heading or summary div for rich formatting.

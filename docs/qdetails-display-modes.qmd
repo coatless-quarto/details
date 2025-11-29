@@ -1,0 +1,136 @@
+---
+title: "Display Modes (Non-Interactive)"
+format: 
+    html:
+        toc: false
+    typst: default
+    docx: default
+filters: 
+  - details
+extensions:
+  details:
+    interactive:
+      open: false                    # Default open state for HTML
+      summary: "Click to expand" # Default summary text for HTML
+    non-interactive:
+      display: "show"                     # "show", "placeholder", or "remove"
+      non-interactive-summary: "Details"  # Default summary text for non-interactive
+      placeholder-text: "Interactive content not available in this format."
+      callout-type: "note"                # Callout style: note, warning, tip, caution, important
+---
+
+Control how details blocks appear in PDF, Word, and other non-interactive formats.
+
+## Display Modes
+
+Set the `display` attribute to control content visibility within non-interactive formats
+using one of the following modes:
+
+| Mode | Description |
+|------|-------------|
+| `"show"` | Display full content in a callout (default) |
+| `"placeholder"` | Show callout with placeholder text |
+| `"remove"` | Remove the block entirely |
+
+## Global Configuration
+
+Set the default display mode for all non-interactive formats either in document metadata or `_quarto.yml`.
+
+For example, to set the default to `placeholder` mode in the Quarto document:
+
+```yaml
+---
+extensions:
+  details:
+    non-interactive:
+      display: "placeholder"
+      non-interactive-summary: "Details"
+      placeholder-text: "Interactive content not available."
+      callout-type: "note"
+---
+```
+
+## Per-Element Configuration
+
+Override the global setting for individual details blocks using the `display` attribute
+inside the details `Div`.
+
+### Show Mode (Default)
+
+The show mode displays the full content of a details `Div` inside a callout block. That is, the content is fully visible in non-interactive formats.
+
+```markdown
+::: {.details summary="Full Content" display="show"}
+This content appears in full.
+:::
+```
+
+Gives:
+
+::: {.details summary="Full Content" display="show"}
+This content appears in full in non-interactive formats as a callout block.
+:::
+
+### Placeholder Mode
+
+For non-interactive formats, we can show a callout with placeholder text instead of the full content.
+
+```markdown
+::: {.details summary="Interactive Widget" display="placeholder" placeholder-text="See online version for interactive demo."}
+<iframe src="demo.html"></iframe>
+:::
+```
+
+This gives:
+
+::: {.details summary="Interactive Widget" display="placeholder" placeholder-text="See the online version for this interactive demo."}
+This interactive content is replaced with placeholder text in PDF/Word.
+:::
+
+### Remove Mode
+
+Under this mode, the entire details block is omitted from non-interactive outputs.
+
+```markdown
+::: {.details summary="HTML Only" display="remove"}
+This disappears in PDF/Word.
+:::
+```
+
+Gives:
+
+::: {.details summary="Web-Only Feature" display="remove"}
+This entire block is removed from non-interactive output.
+:::
+
+(This block will not appear in non-interactive formats.)
+
+## Alternative Summary Text
+
+Specify different summary text for non-interactive formats using `non-interactive-summary` attribute:
+
+```markdown
+::: {.details summary="Click to expand" non-interactive-summary="Additional Information"}
+Content here.
+:::
+```
+
+Gives:
+
+::: {.details summary="Click to expand" non-interactive-summary="Additional Information"}
+Content here.
+:::
+
+## Callout Types
+
+The callout type for non-interactive formats can be customized using the `callout-type` attribute. For example, with `tip` and `warning` types:
+
+```markdown
+::: {.details summary="Tip" callout-type="tip"}
+:::
+
+::: {.details summary="Warning" callout-type="warning"}
+:::
+```
+
+Available types: `note`, `tip`, `warning`, `caution`, and `important`.

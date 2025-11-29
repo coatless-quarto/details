@@ -1,0 +1,74 @@
+---
+title: "Debug Mode"
+extensions:
+  details:
+    debug: true
+filters: [details]
+---
+
+Enable verbose logging to troubleshoot configuration issues.
+
+## Configuration
+
+```yaml
+---
+extensions:
+  details:
+    debug: true
+---
+```
+
+## What Gets Logged
+
+When debug mode is enabled, the filter logs:
+
+- **Initialization:** Options parsed from metadata
+- **Format detection:** Whether output is interactive or not
+- **Summary extraction:** Source of summary (attribute, div, heading, default)
+- **ID generation:** Custom or auto-generated IDs
+- **Content filtering:** Conditional content decisions
+- **Output generation:** HTML or callout creation
+
+## Sample Log Output
+
+```default
+[details] Initializing options
+[details] Output format interactive: true
+[details] Interactive options: open=false, summary_text='Click to expand'
+[details] Non-interactive options: display=show, callout_type=note
+[details] Processing details div
+[details] Summary from attribute: 'Example Section'
+[details] Generated ID: 'details-1'
+[details] Processing HTML: id=details-1, open=false, group=nil, mode=exclusive
+```
+
+## Demo
+
+This page has debug mode enabled. Render it and check the console output.
+
+::: {.details summary="Example Section"}
+This block will generate debug log entries.
+:::
+
+::: {#custom-id .details summary="With Custom ID"}
+This uses a custom ID instead of auto-generated.
+:::
+
+::: {.details summary="Grouped" group="test-group"}
+This is part of an accordion group.
+:::
+
+## Disable for Production
+
+Remember to disable debug mode for production builds:
+
+```yaml
+---
+extensions:
+  details:
+    debug: false
+---
+```
+
+Failure to do so may expose internal processing details to end users, clutter logs, and impact performance.
+

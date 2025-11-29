@@ -10,6 +10,7 @@ website:
     logo: "details-animated-logo.svg"
     logo-alt: "A hexagon logo for the details extension."
     style: "floating"
+    collapse-level: 3
     search: true
     tools:
       - icon: github
@@ -17,6 +18,34 @@ website:
     contents: 
       - text: "Home"
         file: index.qmd
+      - section: "Examples"
+        contents:
+        - section: "Getting Started"
+          contents:
+            - text: Quickstart
+              href: qdetails-quickstart.qmd
+            - text: Open by Default
+              href: qdetails-open-default.qmd
+        - section: "Accordion"
+          contents:
+            - text: Exclusive Mode
+              href: qdetails-accordion-exclusive.qmd
+            - text: Synchronized Mode
+              href: qdetails-accordion-synchronized.qmd
+        - section: "Advanced"
+          contents:
+            - text: Rich Summaries
+              href: qdetails-rich-summaries.qmd
+            - text: Conditional Content
+              href: qdetails-conditional-content.qmd
+            - text: Expand/Collapse Controls
+              href: qdetails-controls.qmd
+            - text: Custom IDs
+              href: qdetails-custom-ids.qmd
+        - section: "Formats"
+          contents:
+            - text: Display Modes
+              href: qdetails-display-modes.qmd
       - section: "Support"
         contents:
         - text: "FAQ"
@@ -26,7 +55,7 @@ website:
       - section: "Extra"
         contents:
         - qdetails-release-notes.qmd
-
+callout-appearance: simple
 format: 
   html:
     toc: true

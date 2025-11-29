@@ -1,0 +1,83 @@
+---
+title: "Quickstart Guide"
+format: 
+  html:
+    toc: true
+  typst: default
+  docx: default
+filters: [details]
+---
+
+This guide demonstrates three ways to define the summary text for a details block.
+
+# Setup
+
+Install the `details` extension if you haven't already:
+
+```sh
+quarto add coatless-quarto/details
+```
+
+Then, in your Quarto document, make sure to include the `details` filter in your document's YAML header:
+
+```md
+---
+title: "My Document"
+filters: [details]
+---
+```
+
+Or, if you want to enable the extension for all documents in your project, add the filter to your project's `_quarto.yml` file.
+
+
+# Use details Blocks
+
+Three ways to define the summary text for a details block.
+
+## 1. Using the `summary` Attribute
+
+```markdown
+::: {.details summary="Click to see the answer"}
+The answer is 42.
+:::
+```
+
+::: {.details summary="Click to see the answer"}
+The answer is 42.
+:::
+
+## 2. Using a Heading
+
+```markdown
+::: {.details}
+## What is the meaning of life?
+
+The answer is 42.
+:::
+```
+
+::: {.details}
+## What is the meaning of life?
+
+The answer is 42.
+:::
+
+## 3. Using a Summary Div
+
+```markdown
+::: {.details}
+::: {.summary}
+Click here for more information
+:::
+
+Here is the detailed information you requested.
+:::
+```
+
+::: {.details}
+::: {.summary}
+Click here for more information
+:::
+
+Here is the detailed information you requested.
+:::

@@ -493,13 +493,6 @@ local function remove_summary_div(content)
   return content
 end
 
---- Summary extraction result structure.
--- Contains both HTML and plain text versions of the summary.
--- @class SummaryResult
--- @field html string HTML representation of summary (for interactive formats)
--- @field plain string Plain text representation (for non-interactive callout titles)
--- @field source string Source of summary: "attribute", "div", "heading", or "default"
-
 --- Extracts summary information from a details div element.
 -- Returns both HTML and plain text versions for different output formats.
 -- Priority order: 1) summary attribute, 2) summary div, 3) first heading, 4) default.

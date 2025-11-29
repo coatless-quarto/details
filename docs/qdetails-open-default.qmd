@@ -1,0 +1,50 @@
+---
+title: "Open by Default"
+format: 
+  html:
+    toc: true
+filters: [details]
+---
+
+Details can be expanded by default using the `open` attribute or global configuration.
+
+## Per-Element Configuration
+
+```markdown
+::: {.details open="true"}
+This content is visible immediately.
+:::
+```
+
+::: {.details open="true"}
+# This is open by default
+This content is visible immediately.
+:::
+
+::: {.details}
+# This is closed by default
+This content is hidden until clicked.
+:::
+
+## Global Configuration
+
+Set all details to open by default:
+ 
+```yaml
+---
+extensions:
+  details:
+    interactive:
+      open: true
+---
+```
+
+## Override Global Setting
+
+When globally open, close specific elements with `open="false"`:
+
+```markdown
+::: {.details summary="Stays closed" open="false"}
+Hidden despite global setting.
+:::
+```
