@@ -3,9 +3,10 @@ title: "Conditional Content"
 filters: [details]
 ---
 
-Show different content based on whether the output format is interactive (HTML) or non-interactive (PDF, Word).
+Show different content based on whether the output format is interactive (HTML) or non-interactive (PDF, Word)
+through the use of special classes `.interactive-only` and `.non-interactive-only`.
 
-## Inside Details Blocks
+For example, you might want to include an interactive widget in HTML output, but provide a static message in PDF/Word.
 
 ```markdown
 ::: {.details summary="Interactive Demo"}
@@ -21,6 +22,8 @@ Show different content based on whether the output format is interactive (HTML) 
 :::
 ```
 
+This gives:
+
 ::: {.details summary="Interactive Demo"}
 
 ::: {.interactive-only}
@@ -34,31 +37,3 @@ This button only appears in HTML output.
 :::
 
 :::
-
-## Standalone Usage
-
-Conditional divs also work outside of details blocks:
-
-```markdown
-::: {.interactive-only}
-Use the interactive controls below.
-:::
-
-::: {.non-interactive-only}
-See the web version for interactive features.
-:::
-```
-
-::: {.interactive-only}
-**You are viewing the interactive HTML version.** All interactive features are available.
-:::
-
-::: {.non-interactive-only}
-**You are viewing a static format.** Some interactive features may not be available.
-:::
-
-## Use Cases
-
-- Embed interactive widgets in HTML, show screenshots in PDF
-- Include JavaScript demos for web, placeholder text for print
-- Provide format-specific instructions
