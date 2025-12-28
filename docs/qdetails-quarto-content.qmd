@@ -84,6 +84,72 @@ for i in range(10):
 
 :::
 
+## Panel Tabsets (HTML only)
+
+Quarto panel tabsets work inside details blocks in HTML output:
+
+````markdown
+::: {.details summary="View examples in multiple languages"}
+
+::: {.panel-tabset}
+
+#### Python
+
+```python
+print("Hello, World!")
+```
+
+#### R
+
+```r
+print("Hello, World!")
+```
+
+#### JavaScript
+
+```javascript
+console.log("Hello, World!");
+```
+
+:::
+
+:::
+````
+
+::: {.interactive-only}
+
+::: {.details summary="View examples in multiple languages"}
+
+::: {.panel-tabset}
+
+#### Python
+
+```python
+print("Hello, World!")
+```
+
+#### R
+
+```r
+print("Hello, World!")
+```
+
+#### JavaScript
+
+```javascript
+console.log("Hello, World!");
+```
+
+:::
+
+:::
+
+:::
+
+:::{.callout-note}
+Panel tabsets require JavaScript and only work in HTML output. In non-interactive formats, consider using separate sections instead.
+:::
+
 ## Callouts (HTML only)
 
 Quarto callouts can be nested inside details blocks in HTML output:
