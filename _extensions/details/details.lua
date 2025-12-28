@@ -609,38 +609,40 @@ local function build_html_attributes(attrs)
   return table.concat(parts, " ")
 end
 
---- Converts Pandoc blocks to an HTML string.
--- @name blocks_to_html
--- @param blocks table Pandoc Blocks (list of block elements)
--- @return string HTML representation of the blocks
-local function blocks_to_html(blocks)
-  return pandoc.write(pandoc.Pandoc(blocks), 'html')
-end
-
 --- Generates HTML output for a details element.
--- Creates the complete `<details>` and `<summary>` HTML structure.
+-- Creates the `<details>` and `<summary>` HTML wrapper while preserving
+-- content as Pandoc blocks for proper Quarto processing (math, etc.).
 -- @name generate_html
 -- @param summary table The summary result table with html, plain, source fields
 -- @param content table The content blocks to render inside the details
 -- @param attrs table Table of HTML attributes for the details element
--- @return table Pandoc RawBlock containing the HTML
+-- @return table Pandoc List of blocks (RawBlocks for wrapper, content blocks preserved)
 -- @see SummaryResult
 local function generate_html(summary, content, attrs)
   local attr_str = build_html_attributes(attrs)
   if attr_str ~= "" then
     attr_str = " " .. attr_str
   end
-  
-  local body_html = blocks_to_html(content)
-  
-  local html = string.format(
-    '<details%s>\n<summary>%s</summary>\n%s\n</details>',
+
+  local result = pandoc.List()
+
+  -- Opening details and summary tags
+  local opening = string.format(
+    '<details%s>\n<summary>%s</summary>',
     attr_str,
-    summary.html,
-    body_html
+    summary.html
   )
-  
-  return pandoc.RawBlock('html', html)
+  result:insert(pandoc.RawBlock('html', opening))
+
+  -- Preserve content as Pandoc blocks for proper Quarto processing
+  for _, block in ipairs(content) do
+    result:insert(block)
+  end
+
+  -- Closing details tag
+  result:insert(pandoc.RawBlock('html', '</details>'))
+
+  return result
 end
 
 --- Gets the accordion mode for a details element.

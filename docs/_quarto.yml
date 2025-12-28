@@ -34,6 +34,8 @@ website:
               href: qdetails-accordion-synchronized.qmd
         - section: "Advanced"
           contents:
+            - text: Quarto Content
+              href: qdetails-quarto-content.qmd
             - text: Rich Summaries
               href: qdetails-rich-summaries.qmd
             - text: Conditional Content
