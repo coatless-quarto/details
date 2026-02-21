@@ -1,0 +1,33 @@
+{
+  "Details Block": {
+    "prefix": "details",
+    "body": [
+      "::: {.details}",
+      "$0",
+      ":::"
+    ],
+    "description": "Insert a collapsible details block."
+  },
+  "Details with Summary": {
+    "prefix": "summary",
+    "body": [
+      "::: {.details summary=\"${1:Click to expand}\"}",
+      "$0",
+      ":::"
+    ],
+    "description": "Insert a collapsible details block with a summary."
+  },
+  "Details Accordion Group": {
+    "prefix": "accordion",
+    "body": [
+      "::: {.details summary=\"${1:Section 1}\" group=\"${2:my-group}\"}",
+      "${3:Content for section 1.}",
+      ":::",
+      "",
+      "::: {.details summary=\"${4:Section 2}\" group=\"${2:my-group}\"}",
+      "${5:Content for section 2.}",
+      ":::"
+    ],
+    "description": "Insert a pair of details blocks in an accordion group."
+  }
+}

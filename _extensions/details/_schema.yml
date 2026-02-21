@@ -1,0 +1,124 @@
+$schema: https://m.canouil.dev/quarto-wizard/assets/schema/v1/extension-schema.json
+
+options:
+  interactive:
+    type: object
+    description: "Options for interactive (HTML) output formats."
+    properties:
+      open:
+        type: boolean
+        default: false
+        description: "Whether details elements are open by default."
+      summary-text:
+        type: string
+        default: "Click to expand"
+        description: "Default summary text when none is specified."
+      accordion-mode:
+        type: string
+        default: exclusive
+        enum:
+          - exclusive
+          - synchronized
+        description: "Accordion behaviour for grouped details elements."
+      show-controls:
+        type: boolean
+        default: false
+        description: "Whether to show expand/collapse all buttons."
+      controls-position:
+        type: string
+        default: top
+        enum:
+          - top
+          - bottom
+          - both
+        description: "Position of expand/collapse controls."
+      controls-expand-text:
+        type: string
+        default: "Expand all"
+        description: "Text for the expand all button."
+      controls-collapse-text:
+        type: string
+        default: "Collapse all"
+        description: "Text for the collapse all button."
+  non-interactive:
+    type: object
+    description: "Options for non-interactive (PDF, Word, Typst) output formats."
+    properties:
+      display:
+        type: string
+        default: show
+        enum:
+          - show
+          - placeholder
+          - remove
+        description: "How to render details blocks in non-interactive formats."
+      placeholder-text:
+        type: string
+        default: "Interactive content not available in this format."
+        description: "Text shown when display is 'placeholder'."
+      summary-text:
+        type: string
+        default: Details
+        description: "Default summary text used as the callout title."
+      callout-type:
+        type: string
+        default: note
+        enum:
+          - note
+          - warning
+          - tip
+          - caution
+          - important
+        description: "Quarto callout type used for non-interactive output."
+  debug:
+    type: boolean
+    default: false
+    description: "Enable debug logging for the details filter."
+
+classes:
+  details:
+    description: "Mark a div as a collapsible details element."
+  interactive-only:
+    description: "Content visible only in interactive (HTML) output formats."
+  non-interactive-only:
+    description: "Content visible only in non-interactive (PDF, Word, Typst) output formats."
+
+attributes:
+  details:
+    summary:
+      type: string
+      description: "Summary text displayed as the clickable header."
+    group:
+      type: string
+      description: "Accordion group name. Details in the same group interact according to accordion-mode."
+    open:
+      type: boolean
+      description: "Whether this details element is initially open."
+    accordion-mode:
+      type: string
+      enum:
+        - exclusive
+        - synchronized
+      description: "Override the global accordion mode for this element."
+    display:
+      type: string
+      enum:
+        - show
+        - placeholder
+        - remove
+      description: "Override the non-interactive display mode for this element."
+    placeholder-text:
+      type: string
+      description: "Override the placeholder text for this element."
+    callout-type:
+      type: string
+      enum:
+        - note
+        - warning
+        - tip
+        - caution
+        - important
+      description: "Override the callout type for non-interactive output."
+    non-interactive-summary:
+      type: string
+      description: "Override the summary text used in non-interactive output."
