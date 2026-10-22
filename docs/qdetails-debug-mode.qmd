@@ -18,6 +18,12 @@ extensions:
 ---
 ```
 
+Debug messages are logged at Quarto's info level, so they only appear when you render with the `--verbose` flag:
+
+```sh
+quarto render document.qmd --verbose
+```
+
 ## What Gets Logged
 
 When debug mode is enabled, the filter logs:
@@ -44,7 +50,7 @@ When debug mode is enabled, the filter logs:
 
 ## Demo
 
-This page has debug mode enabled. Render it and check the console output.
+This page has debug mode enabled. Render it with `quarto render --verbose` and check the console output.
 
 ::: {.details summary="Example Section"}
 This block will generate debug log entries.
