@@ -26,8 +26,8 @@
 
 --- Summary of a details element, in the forms the output formats need.
 ---@class DetailsSummary
----@field inlines pandoc.Inlines Summary content for the HTML `<summary>` element
----@field plain string Plain-text summary, used for `aria-label` and callout titles
+---@field inlines? pandoc.Inlines Rich summary content from a heading or summary div; nil for plain-text summaries
+---@field plain string Plain-text summary, used for `aria-label` and in place of missing inlines
 ---@field source "attribute"|"div"|"heading"|"default" Where the summary came from
 
 --- One option in an option spec. The default's type decides whether the
@@ -354,11 +354,7 @@ local function extract_summary(el, default_text)
   local attr_summary = el.attributes.summary
   if attr_summary then
     debug_log("Summary from attribute: '%s'", attr_summary)
-    return {
-      inlines = text_to_summary_inlines(attr_summary),
-      plain = attr_summary,
-      source = "attribute"
-    }, content
+    return { plain = attr_summary, source = "attribute" }, content
   end
 
   -- Priority 2: summary div (supports rich formatting)
@@ -386,11 +382,7 @@ local function extract_summary(el, default_text)
   end
 
   debug_log("Using default summary")
-  return {
-    inlines = text_to_summary_inlines(default_text),
-    plain = default_text,
-    source = "default"
-  }, content
+  return { plain = default_text, source = "default" }, content
 end
 
 -- ============================================================================
@@ -471,7 +463,7 @@ local function generate_html(summary, content, attrs)
 
   -- Summary inlines between raw <summary> tags
   local summary_inlines = pandoc.Inlines({ pandoc.RawInline('html', '<summary>') })
-  summary_inlines:extend(summary.inlines)
+  summary_inlines:extend(summary.inlines or text_to_summary_inlines(summary.plain))
   summary_inlines:insert(pandoc.RawInline('html', '</summary>'))
   result:insert(pandoc.Plain(summary_inlines))
 
@@ -539,7 +531,7 @@ end
 --- Creates a Quarto callout block.
 --- Quarto's callout renderers keep only cross-reference IDs (such as `nte-`),
 --- so a custom ID goes on a wrapping Div, which every writer turns into an anchor.
----@param title string The callout title
+---@param title string|pandoc.Inlines The callout title
 ---@param content pandoc.List The callout content blocks
 ---@param callout_type string The callout type (note, warning, tip, caution, important)
 ---@param id string Custom ID for the callout, or "" for none
@@ -574,8 +566,9 @@ local function process_non_interactive(el, summary, content)
   end
 
   local callout_type = element_option(el, "callout-type", non_interactive_opts.callout_type)
-  -- An explicit non-interactive summary overrides the summary used in HTML
-  local title = el.attributes["non-interactive-summary"] or summary.plain
+  -- An explicit non-interactive summary overrides the summary used in HTML.
+  -- Rich summaries keep their inlines, so math and cross-references render in the title.
+  local title = el.attributes["non-interactive-summary"] or summary.inlines or summary.plain
   -- Only an author-supplied ID is kept; generated IDs exist for HTML only
   local id = el.identifier
 
@@ -586,7 +579,7 @@ local function process_non_interactive(el, summary, content)
   end
 
   -- display == "show"
-  debug_log("Creating full callout with title: '%s'", title)
+  debug_log("Creating full callout with title: '%s'", pandoc.utils.stringify(title))
   return create_callout(title, content, callout_type, id)
 end
 
