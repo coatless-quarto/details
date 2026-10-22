@@ -762,20 +762,25 @@ local function get_non_interactive_summary(el, summary)
 end
 
 --- Creates a Quarto callout block.
+-- Quarto's callout renderers keep only cross-reference IDs (such as `nte-`),
+-- so a custom ID goes on a wrapping Div, which every writer turns into an anchor.
 -- @name create_callout
 -- @param title string The callout title
 -- @param content table The callout content (Pandoc Blocks)
 -- @param callout_type string The callout type (note, warning, tip, caution, important)
 -- @param id string|nil Optional ID for the callout
--- @return table Quarto Callout block
+-- @return table Quarto Callout block, wrapped in a Div when an ID is given
 local function create_callout(title, content, callout_type, id)
-  return quarto.Callout({
+  local callout = quarto.Callout({
     type = callout_type,
     title = title,
     content = pandoc.Blocks(content),
-    collapse = false,
-    id = id
+    collapse = false
   })
+  if id == nil or id == "" then
+    return callout
+  end
+  return pandoc.Div({ callout }, pandoc.Attr(id))
 end
 
 --- Creates placeholder content as Pandoc blocks.
@@ -807,7 +812,8 @@ local function process_non_interactive(el, summary, content)
   
   local callout_type = get_callout_type(el)
   local title = get_non_interactive_summary(el, summary)
-  local id = get_element_id(el)
+  -- Only an author-supplied ID is kept; generated IDs exist for HTML only
+  local id = el.identifier
   
   if display == "placeholder" then
     local placeholder = get_placeholder_text(el)
