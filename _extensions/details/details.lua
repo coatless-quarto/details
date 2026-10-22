@@ -1022,7 +1022,9 @@ local function generate_controls_html(position)
 end
 
 --- Generates JavaScript for the expand/collapse control buttons.
--- Defines global functions for expanding and collapsing all details elements.
+-- Defines global functions for expanding and collapsing all details elements
+-- created by this extension (`details.details`), leaving others such as
+-- Quarto's code-fold blocks alone.
 -- @name generate_controls_js
 -- @return string JavaScript code wrapped in script tags
 local function generate_controls_js()
@@ -1030,13 +1032,13 @@ local function generate_controls_js()
 <script>
 (function() {
   window.detailsExpandAll = function() {
-    document.querySelectorAll('details').forEach(function(details) {
+    document.querySelectorAll('details.details').forEach(function(details) {
       details.open = true;
     });
   };
   
   window.detailsCollapseAll = function() {
-    document.querySelectorAll('details').forEach(function(details) {
+    document.querySelectorAll('details.details').forEach(function(details) {
       details.open = false;
     });
   };
