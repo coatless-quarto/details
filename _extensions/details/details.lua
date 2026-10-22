@@ -1091,13 +1091,10 @@ function Pandoc(doc)
   if interactive_opts.show_controls and has_details_elements then
     debug_log("Injecting expand/collapse controls")
     
-    -- Add CSS (only once, at the beginning)
-    local css = generate_controls_css()
-    blocks_to_prepend:insert(pandoc.RawBlock('html', css))
-    
-    -- Add JS for controls
-    local controls_js = generate_controls_js()
-    blocks_to_prepend:insert(pandoc.RawBlock('html', controls_js))
+    -- Add CSS and JS to the page head and end, not the body, so that
+    -- RevealJS doesn't turn them into a slide of their own
+    quarto.doc.include_text("in-header", generate_controls_css())
+    quarto.doc.include_text("after-body", generate_controls_js())
     
     -- Add controls at top if configured
     if should_show_controls_at("top") then
@@ -1117,22 +1114,29 @@ function Pandoc(doc)
   -- Handle synchronized accordion groups
   if has_synchronized_groups then
     debug_log("Injecting JavaScript for synchronized accordion groups")
-    local sync_js = generate_synchronized_js()
-    blocks_to_append:insert(pandoc.RawBlock('html', sync_js))
+    quarto.doc.include_text("after-body", generate_synchronized_js())
   end
   
   -- Apply modifications if any
   if #blocks_to_prepend > 0 or #blocks_to_append > 0 then
     local new_blocks = pandoc.List()
-    
+    local first = 1
+
+    -- RevealJS turns blocks before the first heading into an untitled slide,
+    -- so the top controls go under the first slide's heading instead
+    if quarto.doc.is_format("revealjs") and doc.blocks[1] and doc.blocks[1].t == "Header" then
+      new_blocks:insert(doc.blocks[1])
+      first = 2
+    end
+
     -- Add prepended blocks
     for _, block in ipairs(blocks_to_prepend) do
       new_blocks:insert(block)
     end
-    
+
     -- Add original blocks
-    for _, block in ipairs(doc.blocks) do
-      new_blocks:insert(block)
+    for i = first, #doc.blocks do
+      new_blocks:insert(doc.blocks[i])
     end
     
     -- Add appended blocks
