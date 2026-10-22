@@ -8,9 +8,44 @@ format:
     toc: true
 ---
 
-# 0.0.0-dev.1: ???? (??-??-????)
+# 0.0.0-dev.2: ???? (??-??-????)
+
+## Breaking changes
+
+- details now requires Quarto 1.10 or later.
 
 ## Features
 
 - `details` provides a markdown-like syntax for creating expandable/collapsible details sections in Quarto documents.
+
+## Bug fixes
+
+- Custom IDs, as in `{#install .details}`, now carry over to Typst, PDF and
+  Word output, so links to them work. Previously, a link to a details block
+  broke Typst compilation.
+- Summaries taken from a heading or a `.summary` div now render math and
+  resolve cross-references such as `@fig-plot`, both in HTML and in the
+  callout titles of Typst, PDF and Word output. Those callout titles also keep
+  bold and code formatting.
+- `show-controls: true` no longer adds an empty slide to the start of RevealJS
+  presentations.
+- A heading becomes the summary only when it is the first block in the
+  details div. Previously, the first heading anywhere in the div was moved
+  into the summary.
+- Classes and attributes on a details div, such as `.my-class` or `style`, now
+  carry over to the `<details>` element.
+- The `show-controls` buttons now expand and collapse only details blocks,
+  leaving Quarto's code-fold blocks alone.
+- `accordion-mode="synchronized"` now works for `group` names that contain
+  quotes or backslashes.
+- The attributes on `<details>` now come out in the same order on every render.
+
+## Documentation
+
+- The README and home page now show how to enable the filter with
+  `filters: [details]`.
+- The configuration examples now use `summary-text`, the key the extension
+  reads, instead of `summary` and `non-interactive-summary`.
+- The debug page now notes that `debug: true` messages appear only with
+  `quarto render --verbose`.
 
