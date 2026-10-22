@@ -440,20 +440,19 @@ local function extract_summary_div(content)
   return nil, content
 end
 
---- Finds and removes the first heading from content.
--- Extracts the heading's inline content to use as summary text.
+--- Removes a leading heading from content.
+-- Only a heading that is the first block counts, so headings later in the
+-- content stay where they are. Extracts its inline content to use as summary text.
 -- @name extract_first_heading
 -- @param content table Pandoc List of blocks (modified in place)
--- @return table|nil The heading's inline content, or nil if no heading found
+-- @return table|nil The heading's inline content, or nil if the first block isn't a heading
 -- @return table The modified content list with heading removed
 local function extract_first_heading(content)
-  for i, block in ipairs(content) do
-    if block.t == "Header" then
-      local heading_inlines = block.content
-      content:remove(i)
-      debug_log("Extracted summary from heading (level %d)", block.level)
-      return heading_inlines, content
-    end
+  local block = content[1]
+  if block and block.t == "Header" then
+    content:remove(1)
+    debug_log("Extracted summary from heading (level %d)", block.level)
+    return block.content, content
   end
   return nil, content
 end
