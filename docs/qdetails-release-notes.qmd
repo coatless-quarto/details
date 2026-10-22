@@ -20,32 +20,10 @@ format:
 
 ## Bug fixes
 
-- Custom IDs, as in `{#install .details}`, now carry over to Typst, PDF and
-  Word output, so links to them work. Previously, a link to a details block
-  broke Typst compilation.
-- Summaries taken from a heading or a `.summary` div now render math and
-  resolve cross-references such as `@fig-plot`, both in HTML and in the
-  callout titles of Typst, PDF and Word output. Those callout titles also keep
-  bold and code formatting.
-- `show-controls: true` no longer adds an empty slide to the start of RevealJS
-  presentations.
-- A heading becomes the summary only when it is the first block in the
-  details div. Previously, the first heading anywhere in the div was moved
-  into the summary.
-- Classes and attributes on a details div, such as `.my-class` or `style`, now
-  carry over to the `<details>` element.
-- The `show-controls` buttons now expand and collapse only details blocks,
-  leaving Quarto's code-fold blocks alone.
-- `accordion-mode="synchronized"` now works for `group` names that contain
-  quotes or backslashes.
-- The attributes on `<details>` now come out in the same order on every render.
+- Summaries written as a heading render math and cross-references, in HTML and in Typst, PDF and Word callout titles.
+- Links to details blocks with custom IDs work in Typst, PDF and Word, and a div's classes and attributes carry over to `<details>`.
+- `show-controls` fits cleanly into RevealJS presentations and opens and closes only details blocks.
 
 ## Documentation
 
-- The README and home page now show how to enable the filter with
-  `filters: [details]`.
-- The configuration examples now use `summary-text`, the key the extension
-  reads, instead of `summary` and `non-interactive-summary`.
-- The debug page now notes that `debug: true` messages appear only with
-  `quarto render --verbose`.
-
+- The README and home page show how to enable the filter, with configuration examples that match the extension.
