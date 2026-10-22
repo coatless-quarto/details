@@ -572,15 +572,17 @@ local function get_html_open_state(el)
   end
 end
 
---- Builds an HTML attributes string from a table.
+--- Builds an HTML attributes string from an ordered list of name-value pairs.
 -- Handles boolean attributes (true = present, false = absent) and string values.
+-- A list rather than a keyed table keeps the attribute order stable between renders.
 -- @name build_html_attributes
--- @param attrs table Table of attribute name-value pairs
+-- @param attrs table Array of {name, value} pairs
 -- @return string Space-separated HTML attributes string
--- @usage build_html_attributes({id="test", open=true}) -- returns 'id="test" open'
+-- @usage build_html_attributes({{"id", "test"}, {"open", true}}) -- returns 'id="test" open'
 local function build_html_attributes(attrs)
   local parts = {}
-  for name, value in pairs(attrs) do
+  for _, attr in ipairs(attrs) do
+    local name, value = attr[1], attr[2]
     if value == true then
       table.insert(parts, name)
     elseif value and value ~= false then
@@ -596,7 +598,7 @@ end
 -- @name generate_html
 -- @param summary table The summary result table with inlines, plain, source fields
 -- @param content table The content blocks to render inside the details
--- @param attrs table Table of HTML attributes for the details element
+-- @param attrs table Ordered {name, value} pairs of HTML attributes for the details element
 -- @return table Pandoc List of blocks (RawBlocks for wrapper, content blocks preserved)
 -- @see SummaryResult
 local function generate_html(summary, content, attrs)
@@ -659,22 +661,22 @@ local function process_html(el, summary, content)
   local group = el.attributes.group
   local accordion_mode = get_accordion_mode(el)
   
-  -- Build attributes table
+  -- Build attributes list (ordered, so output is stable between renders)
   local attrs = {
-    id = id,
-    open = is_open,
-    ["aria-label"] = summary.plain
+    { "id", id },
+    { "open", is_open },
+    { "aria-label", summary.plain }
   }
   
   -- Handle accordion grouping based on mode
   if group then
     if accordion_mode == "exclusive" then
       -- Use native HTML name attribute for exclusive mode
-      attrs.name = group
+      table.insert(attrs, { "name", group })
     else
       -- Use data attribute for synchronized mode (handled by JavaScript)
-      attrs["data-details-group"] = group
-      attrs["data-accordion-mode"] = "synchronized"
+      table.insert(attrs, { "data-details-group", group })
+      table.insert(attrs, { "data-accordion-mode", "synchronized" })
       has_synchronized_groups = true
     end
   end
