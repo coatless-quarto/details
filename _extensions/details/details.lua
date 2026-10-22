@@ -647,8 +647,21 @@ local function get_accordion_mode(el)
   return interactive_opts.accordion_mode
 end
 
+--- Div attributes that configure this extension, so they aren't copied to the HTML output.
+local OPTION_ATTRIBUTES = {
+  ["summary"] = true,
+  ["open"] = true,
+  ["group"] = true,
+  ["accordion-mode"] = true,
+  ["display"] = true,
+  ["placeholder-text"] = true,
+  ["callout-type"] = true,
+  ["non-interactive-summary"] = true
+}
+
 --- Processes a details div for HTML output.
 -- Builds the complete HTML structure with accessibility attributes and accordion support.
+-- The div's own classes and other attributes are passed through to the details element.
 -- @name process_html
 -- @param el table The details Div element
 -- @param summary table The summary result table
@@ -664,6 +677,7 @@ local function process_html(el, summary, content)
   -- Build attributes list (ordered, so output is stable between renders)
   local attrs = {
     { "id", id },
+    { "class", table.concat(el.classes, " ") },
     { "open", is_open },
     { "aria-label", summary.plain }
   }
@@ -678,6 +692,13 @@ local function process_html(el, summary, content)
       table.insert(attrs, { "data-details-group", group })
       table.insert(attrs, { "data-accordion-mode", "synchronized" })
       has_synchronized_groups = true
+    end
+  end
+  
+  -- Pass the div's other attributes through, in source order
+  for name, value in pairs(el.attributes) do
+    if not OPTION_ATTRIBUTES[name] then
+      table.insert(attrs, { name, value })
     end
   end
   
