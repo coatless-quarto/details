@@ -11,10 +11,10 @@ extensions:
   details:
     interactive:
       open: false                    # Default open state for HTML
-      summary: "Click to expand" # Default summary text for HTML
+      summary-text: "Click to expand" # Default summary text for HTML
     non-interactive:
       display: "show"                     # "show", "placeholder", or "remove"
-      non-interactive-summary: "Details"  # Default summary text for non-interactive
+      summary-text: "Details"             # Default summary text for non-interactive
       placeholder-text: "Interactive content not available in this format."
       callout-type: "note"                # Callout style: note, warning, tip, caution, important
 ---
@@ -44,7 +44,7 @@ extensions:
   details:
     non-interactive:
       display: "placeholder"
-      non-interactive-summary: "Details"
+      summary-text: "Details"
       placeholder-text: "Interactive content not available."
       callout-type: "note"
 ---

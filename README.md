@@ -17,6 +17,22 @@ This command will download and install the Quarto extension under the `_extensio
 
 ## Usage
 
+Add the `details` filter to your document's YAML header:
+
+```yaml
+---
+title: "My Document"
+filters: [details]
+---
+```
+
+Or, to enable the extension for all documents in your project, add the filter to your project's `_quarto.yml` file:
+
+```yaml
+filters:
+  - details
+```
+
 ### Syntax with attribute
 
 Use the `.details` class and specify the summary text with the `summary` attribute:
@@ -31,7 +47,7 @@ You can include **any** Markdown content here.
 
 ### Syntax with heading as summary
 
-Use any heading level as the summary text. The heading will be automatically extracted:
+Use any heading level as the summary text. When the heading is the first block in the details div, it is automatically extracted:
 
 ```markdown
 ::: {.details}
@@ -66,7 +82,7 @@ If multiple summary methods are used, the priority is:
 
 1. **Attribute** (`summary="text"`) - highest priority
 2. **Summary div** (`::: {.summary}`)
-3. **First heading** (`##`, `###`, etc.)
+3. **Heading** (`##`, `###`, etc.), when it is the first block
 4. **Default** ("Click to expand")
 
 
@@ -260,10 +276,10 @@ Configure the extension in your document's YAML front matter using the `extensio
 ---
 extensions:
   details:
-    debug: false  # Enable verbose logging
+    debug: false  # Log processing details (shown with quarto render --verbose)
     interactive:
       open: false                       # Default open state for HTML
-      summary: "Click to expand"   # Default summary text for HTML
+      summary-text: "Click to expand"   # Default summary text for HTML
       accordion-mode: "exclusive"       # "exclusive" or "synchronized"
       show-controls: false              # Show expand/collapse all buttons
       controls-position: "top"          # "top", "bottom", or "both"
@@ -271,7 +287,7 @@ extensions:
       controls-collapse-text: "Collapse all"
     non-interactive:
       display: "show"                   # "show", "placeholder", or "remove"
-      summary: "Details"           # Default summary text for non-interactive
+      summary-text: "Details"           # Default summary text for non-interactive
       placeholder-text: "Interactive content not available in this format."
       callout-type: "note"              # Callout style: note, warning, tip, caution, important
 ---
@@ -323,7 +339,7 @@ In HTML, the summary will be "Click to expand code". In PDF/Word, the callout ti
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `debug` | `false` | Enable verbose logging |
+| `debug` | `false` | Log processing details. The messages only appear when you render with `quarto render --verbose`. |
 
 ### Global Options (extensions.details.interactive)
 
@@ -342,7 +358,7 @@ In HTML, the summary will be "Click to expand code". In PDF/Word, the callout ti
 | Option | Default | Description |
 |--------|---------|-------------|
 | `display` | `"show"` | Default display mode |
-| `non-interactive-summary` | `"Details"` | Default summary/title text |
+| `summary-text` | `"Details"` | Default summary/title text |
 | `placeholder-text` | `"Interactive content not available in this format."` | Default placeholder message |
 | `callout-type` | `"note"` | Default callout type |
 

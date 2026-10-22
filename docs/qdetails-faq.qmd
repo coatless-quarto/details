@@ -64,7 +64,7 @@ There are three methods, in order of priority:
 
 1. **Attribute**: `summary="Your text"` (plain text only)
 2. **Summary div**: Nested `::: {.summary}` div (supports Markdown)
-3. **Heading**: First heading in the block (supports Markdown)
+3. **Heading**: A heading that is the first block (supports Markdown)
 
 If none are provided, the default text "Click to expand" is used.
 
@@ -254,7 +254,7 @@ extensions:
     debug: true
 ```
 
-This logs option parsing, summary extraction, ID generation, and more.
+Then render with `quarto render --verbose`. This logs option parsing, summary extraction, ID generation, and more. Without `--verbose`, the messages aren't shown.
 
 # Compatibility
 

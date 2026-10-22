@@ -8,7 +8,7 @@ filters: [details]
 
 Add custom IDs to enable direct linking to specific details sections.
 
-## Configuration
+## Configuration {#adding-ids}
 
 ```markdown
 ::: {#installation .details summary="Installation Guide"}
