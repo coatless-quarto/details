@@ -942,13 +942,12 @@ local function generate_synchronized_js()
         
         var isOpen = details.open;
         
-        // Find all other details in the same group
-        var groupMembers = document.querySelectorAll(
-          'details[data-details-group="' + group + '"][data-accordion-mode="synchronized"]'
-        );
-        
-        groupMembers.forEach(function(member) {
-          if (member !== details && member.open !== isOpen) {
+        // Update all other details in the same group. Comparing the
+        // attribute avoids building a selector from the group name.
+        syncDetails.forEach(function(member) {
+          if (member !== details &&
+              member.getAttribute('data-details-group') === group &&
+              member.open !== isOpen) {
             member.open = isOpen;
           }
         });
