@@ -414,32 +414,12 @@ end
 -- Summary Extraction
 -- ============================================================================
 
---- Converts Pandoc Inlines to an HTML string.
--- Used for rendering rich summary text from headings.
--- Removes wrapping paragraph tags from the output.
--- @name inlines_to_html
--- @param inlines table Pandoc Inlines (list of inline elements)
--- @return string HTML representation of the inlines
-local function inlines_to_html(inlines)
-  local doc = pandoc.Pandoc({pandoc.Plain(inlines)})
-  local html = pandoc.write(doc, 'html')
-  -- Remove wrapping <p> tags if present
-  html = html:gsub("^%s*<p>", ""):gsub("</p>%s*$", "")
-  return html
-end
-
---- Converts Pandoc Blocks to an HTML string for summary display.
--- Used for rendering rich summary text from summary divs.
--- Removes wrapping paragraph tags for single paragraphs.
--- @name blocks_to_summary_html
--- @param blocks table Pandoc Blocks (list of block elements)
--- @return string HTML representation of the blocks
-local function blocks_to_summary_html(blocks)
-  local doc = pandoc.Pandoc(blocks)
-  local html = pandoc.write(doc, 'html')
-  -- Remove wrapping <p> tags for single paragraph
-  html = html:gsub("^%s*<p>", ""):gsub("</p>%s*$", "")
-  return html
+--- Wraps plain summary text as escaped raw HTML inlines.
+-- @name text_to_summary_inlines
+-- @param text string The plain summary text
+-- @return table Pandoc Inlines holding the escaped text
+local function text_to_summary_inlines(text)
+  return pandoc.Inlines({ pandoc.RawInline('html', escape_html(text)) })
 end
 
 --- Finds and removes a summary div from content.
@@ -494,25 +474,26 @@ local function remove_summary_div(content)
 end
 
 --- Extracts summary information from a details div element.
--- Returns both HTML and plain text versions for different output formats.
+-- Returns both inline and plain text versions for different output formats.
+-- Rich summaries stay in the AST so that Quarto processes math and cross-references.
 -- Priority order: 1) summary attribute, 2) summary div, 3) first heading, 4) default.
 -- @name extract_summary
 -- @param el table The details Div element
 -- @param default_text string Default summary text if no summary found
--- @return table Summary result table with html, plain, and source fields
+-- @return table Summary result table with inlines, plain, and source fields
 -- @return table Cleaned content blocks with summary elements removed
 -- @see SummaryResult
 local function extract_summary(el, default_text)
   local content = pandoc.List(el.content)
   local summary = {
-    html = escape_html(default_text),
+    inlines = text_to_summary_inlines(default_text),
     plain = default_text,
     source = "default"
   }
-  
+
   -- Priority 1: summary attribute
   if el.attributes.summary then
-    summary.html = escape_html(el.attributes.summary)
+    summary.inlines = text_to_summary_inlines(el.attributes.summary)
     summary.plain = el.attributes.summary
     summary.source = "attribute"
     content = remove_summary_div(content)
@@ -522,7 +503,8 @@ local function extract_summary(el, default_text)
     local div_content
     div_content, content = extract_summary_div(content)
     if div_content then
-      summary.html = blocks_to_summary_html(div_content)
+      -- <summary> takes phrasing content, so paragraphs become line breaks
+      summary.inlines = pandoc.utils.blocks_to_inlines(div_content, { pandoc.LineBreak() })
       summary.plain = pandoc.utils.stringify(div_content)
       summary.source = "div"
     else
@@ -530,7 +512,7 @@ local function extract_summary(el, default_text)
       local heading_inlines
       heading_inlines, content = extract_first_heading(content)
       if heading_inlines then
-        summary.html = inlines_to_html(heading_inlines)
+        summary.inlines = heading_inlines
         summary.plain = pandoc.utils.stringify(heading_inlines)
         summary.source = "heading"
       else
@@ -611,9 +593,9 @@ end
 
 --- Generates HTML output for a details element.
 -- Creates the `<details>` and `<summary>` HTML wrapper while preserving
--- content as Pandoc blocks for proper Quarto processing (math, etc.).
+-- summary and content as Pandoc elements for proper Quarto processing (math, etc.).
 -- @name generate_html
--- @param summary table The summary result table with html, plain, source fields
+-- @param summary table The summary result table with inlines, plain, source fields
 -- @param content table The content blocks to render inside the details
 -- @param attrs table Table of HTML attributes for the details element
 -- @return table Pandoc List of blocks (RawBlocks for wrapper, content blocks preserved)
@@ -626,13 +608,14 @@ local function generate_html(summary, content, attrs)
 
   local result = pandoc.List()
 
-  -- Opening details and summary tags
-  local opening = string.format(
-    '<details%s>\n<summary>%s</summary>',
-    attr_str,
-    summary.html
-  )
-  result:insert(pandoc.RawBlock('html', opening))
+  -- Opening details tag
+  result:insert(pandoc.RawBlock('html', string.format('<details%s>', attr_str)))
+
+  -- Summary inlines between raw <summary> tags
+  local summary_inlines = pandoc.Inlines({ pandoc.RawInline('html', '<summary>') })
+  summary_inlines:extend(summary.inlines)
+  summary_inlines:insert(pandoc.RawInline('html', '</summary>'))
+  result:insert(pandoc.Plain(summary_inlines))
 
   -- Preserve content as Pandoc blocks for proper Quarto processing
   for _, block in ipairs(content) do
