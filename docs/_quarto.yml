@@ -57,6 +57,8 @@ website:
       - section: "Extra"
         contents:
         - qdetails-release-notes.qmd
+        - href: https://blog.thecoatlessprofessor.com/projects/details/
+          text: Blog posts
 callout-appearance: simple
 format: 
   html:
