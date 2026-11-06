@@ -378,6 +378,13 @@ on using Quarto's shortcode syntax for details blocks, while this extension
 emphasizes a more natural Markdown syntax through `Div` usage and
 additional features for non-interactive formats.
 
+## Learn more
+
+- [Documentation](https://quarto.thecoatlessprofessor.com/details/)
+- [Release notes](https://quarto.thecoatlessprofessor.com/details/qdetails-release-notes.html)
+- [Blog posts](https://blog.thecoatlessprofessor.com/projects/details/)
+- Discuss on [Mastodon](https://mastodon.social/@coatless/115634599676539829), [Bluesky](https://bsky.app/profile/coatless.bsky.social/post/3m6s4njykl224) or [X](https://x.com/axiomsofxyz/status/1994848665786355830)
+
 ## License
 
 details is licensed under AGPL-3.0-or-later with an exception: what you write and render with details stays yours, along with the output, under any terms you like. See [LICENSE](LICENSE) and [LICENSE-EXCEPTION.md](LICENSE-EXCEPTION.md).
