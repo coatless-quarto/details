@@ -377,3 +377,7 @@ by [Jeffrey Girard](https://github.com/jmgirard). Their extension focuses
 on using Quarto's shortcode syntax for details blocks, while this extension
 emphasizes a more natural Markdown syntax through `Div` usage and
 additional features for non-interactive formats.
+
+## License
+
+details is licensed under AGPL-3.0-or-later with an exception: what you write and render with details stays yours, along with the output, under any terms you like. See [LICENSE](LICENSE) and [LICENSE-EXCEPTION.md](LICENSE-EXCEPTION.md).
