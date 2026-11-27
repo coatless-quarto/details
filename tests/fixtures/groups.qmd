@@ -1,0 +1,21 @@
+---
+title: "details: accordion groups"
+filters:
+  - details
+---
+
+::: {.details summary="A1" group="faq"}
+Body.
+:::
+
+::: {.details summary="A2" group="faq"}
+Body.
+:::
+
+::: {.details summary="B1" group="steps" accordion-mode="synchronized"}
+Body.
+:::
+
+::: {.details summary="B2" group="steps" accordion-mode="synchronized"}
+Body.
+:::

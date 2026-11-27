@@ -1,0 +1,22 @@
+---
+title: "details: non-interactive display"
+filters:
+  - details
+extensions:
+  details:
+    non-interactive:
+      display: placeholder
+      placeholder-text: "See the web version."
+---
+
+::: {.details summary="Placeholder block"}
+Hidden body.
+:::
+
+::: {.details summary="Removed block" display="remove"}
+Removed body.
+:::
+
+::: {.details summary="Shown block" display="show"}
+Shown body.
+:::
