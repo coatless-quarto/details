@@ -1,0 +1,17 @@
+---
+title: "details: open"
+filters:
+  - details
+extensions:
+  details:
+    interactive:
+      open: true
+---
+
+::: {.details #default-open summary="Opens by default"}
+Body.
+:::
+
+::: {.details #closed summary="Stays closed" open="false"}
+Body.
+:::

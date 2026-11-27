@@ -1,0 +1,13 @@
+---
+title: "details: conditional content"
+filters:
+  - details
+---
+
+::: {.interactive-only}
+Web only.
+:::
+
+::: {.non-interactive-only}
+Print only.
+:::

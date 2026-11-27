@@ -1,0 +1,37 @@
+---
+title: "details: summaries"
+filters:
+  - details
+extensions:
+  details:
+    interactive:
+      summary-text: "Show me"
+    non-interactive:
+      summary-text: "More"
+      callout-type: tip
+---
+
+::: {.details .extra #my-details summary="Attribute summary" data-x="1" callout-type="warning"}
+Body one.
+:::
+
+::: {.details}
+::: {.summary}
+Div summary with $x^2$
+:::
+Body two.
+:::
+
+::: {.details}
+## Heading summary with $y_1$
+
+Body three.
+:::
+
+::: {.details}
+Intro paragraph.
+
+## Not a summary
+
+Body four.
+:::

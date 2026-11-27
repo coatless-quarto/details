@@ -1,0 +1,15 @@
+---
+title: "details: controls on slides"
+filters:
+  - details
+extensions:
+  details:
+    interactive:
+      show-controls: true
+---
+
+## First slide
+
+::: {.details summary="One"}
+Body.
+:::

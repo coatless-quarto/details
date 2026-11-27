@@ -1,0 +1,20 @@
+---
+title: "details: controls"
+filters:
+  - details
+extensions:
+  details:
+    interactive:
+      show-controls: true
+      controls-position: both
+      controls-expand-text: "Open everything"
+      controls-collapse-text: "Close everything"
+---
+
+First paragraph.
+
+::: {.details summary="One"}
+Body.
+:::
+
+Last paragraph.
